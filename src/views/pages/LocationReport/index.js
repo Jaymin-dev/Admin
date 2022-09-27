@@ -1,7 +1,12 @@
 import React from 'react'
 import TableNew from '../../../components/TableNew'
+import { CButton } from '@coreui/react'
 
 const LocationReport = () => {
+  const handleClick = () => {
+    window.open('https://www.google.com/maps', '_blank')
+  }
+
   const header = [
     {
       Header: 'Owner Name',
@@ -16,7 +21,7 @@ const LocationReport = () => {
       accessor: 'address',
     },
     {
-      Header: 'View',
+      Header: 'Action',
       accessor: 'view',
     },
   ]
@@ -25,19 +30,31 @@ const LocationReport = () => {
       driver_name: 'Cody Wagner',
       date_time: '12/05/2022',
       address: '1st Cross, Rammurthy nagar, Bangalore-560016',
-      view: '5hr',
+      view: (
+        <CButton shape="rounded-pill" color="light" size="sm" onClick={handleClick}>
+          View
+        </CButton>
+      ),
     },
     {
       driver_name: 'Ruben Lewis',
       date_time: '12/05/2022',
       address: 'G. Calandriello, P. Papadimitratos, J.-P. Hubaux',
-      view: '5hr',
+      view: (
+        <CButton shape="rounded-pill" color="light" size="sm" onClick={handleClick}>
+          View
+        </CButton>
+      ),
     },
     {
       driver_name: 'Cody Wagner',
       date_time: '12/05/2022',
       address: 'M. Gupta, N.S. Chaudhari, Anonymous roaming authentication',
-      view: '5hr',
+      view: (
+        <CButton shape="rounded-pill" color="light" size="sm" onClick={handleClick}>
+          View
+        </CButton>
+      ),
     },
   ]
   return (

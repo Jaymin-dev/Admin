@@ -56,7 +56,7 @@ const DriverRatingReport = () => {
   ]
   return (
     <div className="bg-white p-4">
-      <TableNew columns={header} data={tableData} />
+      <TableNew columns={header} data={tableData} search />
     </div>
   )
 }

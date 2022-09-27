@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { CFormSelect } from '@coreui/react'
 import TableNew from '../../../components/TableNew'
 
 const DayWiseReport = () => {
@@ -46,9 +47,31 @@ const DayWiseReport = () => {
       soc: '6.5',
     },
   ]
+
+  const [age, setAge] = useState('')
+
+  const handleChange = (event) => {
+    setAge(event.target.value)
+  }
+
   return (
     <div className="bg-white p-4">
-      <TableNew columns={header} data={tableData} />
+      <TableNew
+        actions={
+          <CFormSelect
+            aria-label="Default select example"
+            options={[
+              'Select driver',
+              { label: 'One', value: '1' },
+              { label: 'Two', value: '2' },
+              { label: 'Three', value: '3', disabled: true },
+            ]}
+          />
+        }
+        search
+        columns={header}
+        data={tableData}
+      />
     </div>
   )
 }

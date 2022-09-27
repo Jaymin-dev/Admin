@@ -63,18 +63,23 @@ const ManageUsers = () => {
   }
   return (
     <div className="bg-white p-4">
-      <CCol xs={6}>
-        <CButton onClick={handleClickOpen} color="primary" className="px-4">
-          Add User
-        </CButton>
-      </CCol>
       <AddUserDialogBox
         addNewUser={addNewUser}
         handleClose={handleClose}
         open={open}
         handleClickOpen={handleClickOpen}
       />
-      <TableNew columns={header} data={tableData} />
+      <TableNew
+        columns={header}
+        data={tableData}
+        search
+        actions={
+          <CButton onClick={handleClickOpen} color="primary" className="px-4">
+            Add User
+          </CButton>
+        }
+        h
+      />
     </div>
   )
 }

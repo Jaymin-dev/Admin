@@ -1,5 +1,6 @@
 import React from 'react'
 import TableNew from '../../../components/TableNew'
+import { CFormSelect } from '@coreui/react'
 
 const RideWiseReport = () => {
   const header = [
@@ -42,7 +43,22 @@ const RideWiseReport = () => {
   ]
   return (
     <div className="bg-white p-4">
-      <TableNew columns={header} data={tableData} />
+      <TableNew
+        columns={header}
+        data={tableData}
+        search
+        actions={
+          <CFormSelect
+            aria-label="Default select example"
+            options={[
+              'Select driver',
+              { label: 'One', value: '1' },
+              { label: 'Two', value: '2' },
+              { label: 'Three', value: '3', disabled: true },
+            ]}
+          />
+        }
+      />
     </div>
   )
 }
