@@ -113,7 +113,7 @@ coreui-free-react-admin-template
 │   ├── _nav.js      # sidebar navigation config
 │   ├── App.js
 │   ├── ...
-│   ├── index.js
+│   ├── saga.js
 │   ├── routes.js    # routes config
 │   └── store.js     # template state example 
 │
