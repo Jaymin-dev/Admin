@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTable } from 'react-table'
+import { useTable, useFilters } from 'react-table'
 import './styles.scss'
 import {
   CTable,
@@ -15,6 +15,33 @@ import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 
 const Table = ({ columns = [], data = [], search, actions }) => {
+  // Define a default UI for filtering
+  function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter }, column }) {
+    return <div />
+  }
+
+  const defaultColumn = React.useMemo(
+    () => ({
+      // Let's set up our default Filter UI
+      Filter: DefaultColumnFilter,
+    }),
+    [],
+  )
+
+  const filterTypes = React.useMemo(
+    () => ({
+      text: (rows, id, filterValue) => {
+        return rows.filter((row) => {
+          const rowValue = row.values[id]
+          return rowValue !== undefined
+            ? String(rowValue).toLowerCase().startsWith(String(filterValue).toLowerCase())
+            : true
+        })
+      },
+    }),
+    [],
+  )
+
   const [tableData, setTableData] = useState(data)
 
   const handleChange = ({ target: { value } }) => {
@@ -26,10 +53,15 @@ const Table = ({ columns = [], data = [], search, actions }) => {
     setTableData(searchRec)
   }
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-    columns,
-    data: tableData,
-  })
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+    {
+      columns,
+      data: tableData,
+      defaultColumn, // Be sure to pass the defaultColumn option
+      filterTypes,
+    },
+    useFilters,
+  )
   return (
     <div className="main-table-wrapper">
       <div className="d-flex justify-content-end align-items-center flex-wrap w-100 mb-4">
@@ -63,7 +95,11 @@ const Table = ({ columns = [], data = [], search, actions }) => {
             <CTableRow {...headerGroup.getHeaderGroupProps()} key={headerGroupsIndex}>
               {headerGroup.headers.map((column, i) => (
                 <CTableHeaderCell {...column.getHeaderProps()} key={`${i}--${headerGroupsIndex}`}>
-                  {column.render('Header')}
+                  <div className="d-flex w-full align-items-center">
+                    {column.render('Header')}
+                    {console.log('column', column)}
+                    {column.canFilter && <div className="ml-2">{column.render('Filter')}</div>}
+                  </div>
                 </CTableHeaderCell>
               ))}
             </CTableRow>

@@ -1,32 +1,39 @@
-// function SelectColumnFilter({ column: { filterValue, setFilter, preFilteredRows, id } }) {
-//   // Calculate the options for filtering
-//   // using the preFilteredRows
-//   const options = useMemo(() => {
-//     const options = new Set()
-//     preFilteredRows.forEach((row) => {
-//       options.add(row.values[id])
-//     })
-//     return [...options.values()]
-//   }, [id, preFilteredRows])
-//
-//   // Render a multi-select box
-//   return (
-//     <select
-//       value={filterValue}
-//       onChange={(e) => {
-//         setFilter(e.target.value || undefined)
-//       }}
-//     >
-//       <option value="">All</option>
-//       {options.map((option, i) => (
-//         <option key={i} value={option}>
-//           {option}
-//         </option>
-//       ))}
-//     </select>
-//   )
-// }
+import React from 'react'
 
-export const filterType = {
-  SELECT_COLUMN_FILTER: 'SELECT_COLUMN_FILTER',
+const filterType = {
+  SELECT_COLUMN_FILTER: SelectColumnFilter,
 }
+
+function SelectColumnFilter({ column: { filterValue, setFilter, preFilteredRows, id } }) {
+  const options = React.useMemo(() => {
+    const options = new Set()
+    preFilteredRows.forEach((row) => {
+      options.add(row.values[id])
+    })
+    return [...options.values()]
+  }, [id, preFilteredRows])
+
+  return (
+    <select
+      value={filterValue}
+      style={{
+        border: 'none',
+        borderBottom: '1px solid #a9a9a980',
+        color: '#2c384af2',
+        cursor: 'pointer',
+      }}
+      onChange={(e) => {
+        setFilter(e.target.value || undefined)
+      }}
+    >
+      <option value="">All</option>
+      {options.map((option, i) => (
+        <option key={i} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  )
+}
+
+export { filterType }
