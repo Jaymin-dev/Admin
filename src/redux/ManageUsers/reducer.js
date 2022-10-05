@@ -14,11 +14,33 @@ const block = {
 }
 
 const initialState = {
-  manageUsers: { ...block },
+  manageUsers: {
+    ...block,
+    tableData: [
+      {
+        name: 'Leah Ramos',
+        mobile_no: '(320) 899-4101',
+        email: 'leah.ramos@example.com',
+        date: '2/4/1964',
+      },
+      {
+        name: 'Cody Wagner',
+        mobile_no: '(659) 590-6871',
+        email: 'cody.wagner@example.com',
+        date: '11/3/1974',
+      },
+      {
+        name: 'Ruben Lewis',
+        mobile_no: '(989) 295-5975',
+        email: 'ruben.lewis@example.com',
+        date: '1/5/1997',
+      },
+    ],
+  },
 }
 
-export const Reducer = (state = initialState, action) => {
-  switch (action.type) {
+export const ManageUsersReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case GET_MANAGE_USER_REQUEST:
       return { ...state, manageUsers: { ...state.manageUsers, loading: true } }
     case GET_MANAGE_USER_SUCCESS:
@@ -29,16 +51,16 @@ export const Reducer = (state = initialState, action) => {
     case GET_MANAGE_USER_ERROR:
       return {
         ...state,
-        manageUsers: { ...state.manageUsers, loading: false, error: action.error },
+        manageUsers: { ...state.manageUsers, loading: false, error: payload },
       }
 
     //reset block with flag and data
     case RESET_BLOCK_MANAGE_USER:
       return {
         ...state,
-        [action.payload.blockType]: {
-          ...state[action.payload.blockType],
-          ...initialState[action.payload.blockType],
+        [payload.blockType]: {
+          ...state[payload.blockType],
+          ...initialState[payload.blockType],
         },
       }
 
@@ -46,8 +68,8 @@ export const Reducer = (state = initialState, action) => {
     case RESET_FLAGS_MANAGE_USER:
       return {
         ...state,
-        [action.payload.blockType]: {
-          ...state[action.payload.blockType],
+        [payload.blockType]: {
+          ...state[payload.blockType],
           ...block,
         },
       }

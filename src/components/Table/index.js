@@ -14,7 +14,7 @@ import InputBase from '@mui/material/InputBase'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 
-const TableNew = ({ columns = [], data = [], search, actions }) => {
+const Table = ({ columns = [], data = [], search, actions }) => {
   const [tableData, setTableData] = useState(data)
 
   const handleChange = ({ target: { value } }) => {
@@ -90,4 +90,4 @@ const TableNew = ({ columns = [], data = [], search, actions }) => {
   )
 }
 
-export default TableNew
+export default Table

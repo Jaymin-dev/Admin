@@ -1,5 +1,6 @@
 import React from 'react'
-import TableNew from '../../../components/TableNew'
+import Table from '../../../components/Table'
+import { filterType } from '../../../components/Table/helper.jsx'
 
 const DriverRatingReport = () => {
   const header = [
@@ -18,6 +19,8 @@ const DriverRatingReport = () => {
     {
       Header: 'Honking',
       accessor: 'honking',
+      Filter: filterType.SELECT_COLUMN_FILTER,
+      filter: 'equals',
     },
     {
       Header: 'Braking',
@@ -33,7 +36,7 @@ const DriverRatingReport = () => {
       driver_name: 'Cody Wagner',
       call_duration: '5',
       speed: '80',
-      honking: '996',
+      honking: 'Very good',
       braking: '2',
       avg: '25',
     },
@@ -41,7 +44,7 @@ const DriverRatingReport = () => {
       driver_name: 'Ruben Lewis',
       call_duration: '74',
       speed: '85',
-      honking: '8520',
+      honking: 'Good',
       braking: '122',
       avg: '28',
     },
@@ -49,14 +52,22 @@ const DriverRatingReport = () => {
       driver_name: 'Leah Ramos',
       call_duration: '87',
       speed: '85',
-      honking: '558',
+      honking: 'Average',
       braking: '122',
+      avg: '28',
+    },
+    {
+      driver_name: 'Ruben Cody',
+      call_duration: '96',
+      speed: '366',
+      honking: 'Bad',
+      braking: '22',
       avg: '28',
     },
   ]
   return (
     <div className="bg-white p-4">
-      <TableNew columns={header} data={tableData} search />
+      <Table columns={header} data={tableData} search />
     </div>
   )
 }

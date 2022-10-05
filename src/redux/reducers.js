@@ -2,12 +2,14 @@ import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 
 // we will connect our reducers here
-import { Reducer } from './ManageUsers/reducer'
+import { ManageUsersReducer } from './ManageUsers/reducer'
+import { UserReducer } from './User/reducer'
 
 const appReducer = (history) =>
   combineReducers({
     router: connectRouter(history),
-    auth: Reducer,
+    manageUsers: ManageUsersReducer,
+    user: UserReducer,
   })
 
 const createRootReducer = (history) => (state, action) => {

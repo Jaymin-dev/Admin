@@ -1,5 +1,5 @@
 import React from 'react'
-import TableNew from '../../../components/TableNew'
+import Table from '../../../components/Table'
 import { CFormSelect } from '@coreui/react'
 
 const RiderWiseReport = () => {
@@ -73,7 +73,7 @@ const RiderWiseReport = () => {
   ]
   return (
     <div className="bg-white p-4">
-      <TableNew columns={header} data={tableData} search />
+      <Table columns={header} data={tableData} search />
     </div>
   )
 }

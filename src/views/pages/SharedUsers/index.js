@@ -1,5 +1,5 @@
 import React from 'react'
-import TableNew from 'src/components/TableNew'
+import Table from 'src/components/Table'
 
 const SharedUsers = () => {
   const header = [
@@ -64,7 +64,7 @@ const SharedUsers = () => {
   ]
   return (
     <div className="bg-white p-4">
-      <TableNew columns={header} data={tableData} search />
+      <Table columns={header} data={tableData} search />
     </div>
   )
 }

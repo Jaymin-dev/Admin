@@ -1,7 +1,9 @@
 import { CButton, CCol } from '@coreui/react'
 import React from 'react'
 import AddUserDialogBox from 'src/components/AddUserDialogBox'
-import TableNew from 'src/components/TableNew'
+import Table from 'src/components/Table'
+import { useSelector } from 'react-redux'
+import { manageUsersSelector } from '../../../redux/ManageUsers/selectors'
 const header = [
   {
     Header: 'Name',
@@ -20,28 +22,10 @@ const header = [
     accessor: 'date',
   },
 ]
-const tableDataRow = [
-  {
-    name: 'Leah Ramos',
-    mobile_no: '(320) 899-4101',
-    email: 'leah.ramos@example.com',
-    date: '2/4/1964',
-  },
-  {
-    name: 'Cody Wagner',
-    mobile_no: '(659) 590-6871',
-    email: 'cody.wagner@example.com',
-    date: '11/3/1974',
-  },
-  {
-    name: 'Ruben Lewis',
-    mobile_no: '(989) 295-5975',
-    email: 'ruben.lewis@example.com',
-    date: '1/5/1997',
-  },
-]
+// const tableDataRow =
 const ManageUsers = () => {
   const [open, setOpen] = React.useState(false)
+  const tableDataRow = useSelector(manageUsersSelector)
   const [tableData, setTableData] = React.useState([...tableDataRow])
 
   const handleClickOpen = () => {
@@ -69,7 +53,7 @@ const ManageUsers = () => {
         open={open}
         handleClickOpen={handleClickOpen}
       />
-      <TableNew
+      <Table
         columns={header}
         data={tableData}
         search

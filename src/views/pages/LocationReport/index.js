@@ -1,5 +1,5 @@
 import React from 'react'
-import TableNew from '../../../components/TableNew'
+import Table from '../../../components/Table'
 import { CButton } from '@coreui/react'
 
 const LocationReport = () => {
@@ -59,7 +59,7 @@ const LocationReport = () => {
   ]
   return (
     <div className="bg-white p-4">
-      <TableNew columns={header} data={tableData} />
+      <Table columns={header} data={tableData} />
     </div>
   )
 }
