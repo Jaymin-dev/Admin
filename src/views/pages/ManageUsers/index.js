@@ -2,8 +2,9 @@ import { CButton, CCol } from '@coreui/react'
 import React from 'react'
 import AddUserDialogBox from 'src/components/AddUserDialogBox'
 import Table from 'src/components/Table'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { manageUsersSelector } from '../../../redux/ManageUsers/selectors'
+import { addManageUsers } from '../../../redux/ManageUsers/action'
 const header = [
   {
     Header: 'Name',
@@ -24,6 +25,7 @@ const header = [
 ]
 // const tableDataRow =
 const ManageUsers = () => {
+  const dispatch = useDispatch()
   const [open, setOpen] = React.useState(false)
   const tableDataRow = useSelector(manageUsersSelector)
   const [tableData, setTableData] = React.useState([...tableDataRow])
@@ -43,6 +45,7 @@ const ManageUsers = () => {
         date: new Date().toLocaleDateString(),
       },
     ])
+    dispatch(addManageUsers(data))
     setOpen(false)
   }
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTable, useFilters } from 'react-table'
 import './styles.scss'
 import {
@@ -43,6 +43,10 @@ const Table = ({ columns = [], data = [], search, actions }) => {
   )
 
   const [tableData, setTableData] = useState(data)
+
+  useEffect(() => {
+    setTableData(data)
+  }, [data])
 
   const handleChange = ({ target: { value } }) => {
     const searchRec = data.filter((val) => {

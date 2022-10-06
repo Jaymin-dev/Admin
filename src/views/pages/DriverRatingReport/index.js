@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '../../../components/Table'
-import { filterType } from '../../../components/Table/helper.jsx'
+import './styles.scss'
+import { CFormSelect } from '@coreui/react'
 
 const DriverRatingReport = () => {
   const header = [
@@ -19,8 +20,8 @@ const DriverRatingReport = () => {
     {
       Header: 'Honking',
       accessor: 'honking',
-      Filter: filterType.SELECT_COLUMN_FILTER,
-      filter: 'equals',
+      // Filter: filterType.SELECT_COLUMN_FILTER,
+      // filter: 'equals',
     },
     {
       Header: 'Braking',
@@ -65,9 +66,33 @@ const DriverRatingReport = () => {
       avg: '28',
     },
   ]
+
+  const [data, setData] = useState(tableData)
+  const [filterVal, setFilterVal] = useState('Honking select')
+
+  useEffect(() => {
+    if (filterVal !== 'Honking select') {
+      return setData(tableData.filter((v) => v.honking === filterVal))
+    }
+    setData(tableData)
+  }, [filterVal])
+
+  const Filter = () => {
+    const options = tableData.map((val) => val.honking)
+    return (
+      <CFormSelect
+        aria-label="Default select example"
+        options={['Honking select', ...options]}
+        value={filterVal}
+        onChange={(e) => {
+          setFilterVal(e.target.value || undefined)
+        }}
+      />
+    )
+  }
   return (
     <div className="bg-white p-4">
-      <Table columns={header} data={tableData} search />
+      <Table columns={header} data={data} search actions={<Filter />} />
     </div>
   )
 }

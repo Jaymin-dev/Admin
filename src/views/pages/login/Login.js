@@ -130,11 +130,11 @@ const Login = () => {
                     <div>
                       <img src={logo} className="w-50" />
                     </div>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
+                    {/*<Link to="/register">*/}
+                    {/*  <CButton color="primary" className="mt-3" active tabIndex={-1}>*/}
+                    {/*    Register Now!*/}
+                    {/*  </CButton>*/}
+                    {/*</Link>*/}
                   </div>
                 </CCardBody>
               </CCard>
