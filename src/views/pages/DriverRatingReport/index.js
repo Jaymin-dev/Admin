@@ -2,16 +2,24 @@ import React, { useEffect, useState } from 'react'
 import Table from '../../../components/Table'
 import './styles.scss'
 import { CFormSelect } from '@coreui/react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  driverRatingUsersListLoadingSelector,
+  driverRatingUsersListSelector,
+} from '../../../redux/DriverRating/selectors'
+import { getDriverRatingList } from '../../../redux/DriverRating/action'
 
 const DriverRatingReport = () => {
+  const dispatch = useDispatch()
+
   const header = [
     {
       Header: 'Driver Name',
-      accessor: 'driver_name',
+      accessor: 'name',
     },
     {
       Header: 'Call Duration',
-      accessor: 'call_duration',
+      accessor: 'calls',
     },
     {
       Header: 'Vehicle Speed',
@@ -32,57 +40,34 @@ const DriverRatingReport = () => {
       accessor: 'avg',
     },
   ]
-  const tableData = [
-    {
-      driver_name: 'Cody Wagner',
-      call_duration: '5',
-      speed: '80',
-      honking: 'Very good',
-      braking: '2',
-      avg: '25',
-    },
-    {
-      driver_name: 'Ruben Lewis',
-      call_duration: '74',
-      speed: '85',
-      honking: 'Good',
-      braking: '122',
-      avg: '28',
-    },
-    {
-      driver_name: 'Leah Ramos',
-      call_duration: '87',
-      speed: '85',
-      honking: 'Average',
-      braking: '122',
-      avg: '28',
-    },
-    {
-      driver_name: 'Ruben Cody',
-      call_duration: '96',
-      speed: '366',
-      honking: 'Bad',
-      braking: '22',
-      avg: '28',
-    },
-  ]
 
-  const [data, setData] = useState(tableData)
+  const driverRatingUsersList = useSelector(driverRatingUsersListSelector)
+  const driverRatingUsersListLoading = useSelector(driverRatingUsersListLoadingSelector)
+
+  const [data, setData] = useState(driverRatingUsersList)
   const [filterVal, setFilterVal] = useState('Honking select')
 
   useEffect(() => {
     if (filterVal !== 'Honking select') {
-      return setData(tableData.filter((v) => v.honking === filterVal))
+      return setData(driverRatingUsersList.filter((v) => v.honking === filterVal))
     }
-    setData(tableData)
+    setData(driverRatingUsersList)
   }, [filterVal])
 
+  useEffect(() => {
+    setData(driverRatingUsersList)
+  }, [driverRatingUsersList])
+
+  useEffect(() => {
+    dispatch(getDriverRatingList())
+  }, [])
+
   const Filter = () => {
-    const options = tableData.map((val) => val.honking)
+    const options = driverRatingUsersList.map((val) => val.honking)
     return (
       <CFormSelect
         aria-label="Default select example"
-        options={['Honking select', ...options]}
+        options={['Honking select', ...[...new Set(options)]]}
         value={filterVal}
         onChange={(e) => {
           setFilterVal(e.target.value || undefined)
@@ -92,7 +77,13 @@ const DriverRatingReport = () => {
   }
   return (
     <div className="bg-white p-4">
-      <Table columns={header} data={data} search actions={<Filter />} />
+      <Table
+        columns={header}
+        data={data}
+        loading={driverRatingUsersListLoading}
+        search
+        actions={<Filter />}
+      />
     </div>
   )
 }

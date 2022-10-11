@@ -1,5 +1,3 @@
-import Cookies from 'js-cookie'
-
 export const SET_SIDEBAR = 'SET_SIDEBAR'
 export const SET_UN_FOLDABLE_SIDEBAR = 'SET_UN_FOLDABLE_SIDEBAR'
 

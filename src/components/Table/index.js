@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTable, useFilters } from 'react-table'
 import './styles.scss'
 import {
+  CSpinner,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -14,7 +15,7 @@ import InputBase from '@mui/material/InputBase'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 
-const Table = ({ columns = [], data = [], search, actions }) => {
+const Table = ({ columns = [], data = [], search, actions, loading }) => {
   // Define a default UI for filtering
   function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter }, column }) {
     return <div />
@@ -101,7 +102,6 @@ const Table = ({ columns = [], data = [], search, actions }) => {
                 <CTableHeaderCell {...column.getHeaderProps()} key={`${i}--${headerGroupsIndex}`}>
                   <div className="d-flex w-full align-items-center">
                     {column.render('Header')}
-                    {console.log('column', column)}
                     {column.canFilter && <div className="ml-2">{column.render('Filter')}</div>}
                   </div>
                 </CTableHeaderCell>
@@ -109,23 +109,30 @@ const Table = ({ columns = [], data = [], search, actions }) => {
             </CTableRow>
           ))}
         </CTableHead>
-        <CTableBody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
-            prepareRow(row)
-            return (
-              <CTableRow {...row.getRowProps()} key={i}>
-                {row.cells.map((cell, getRowProps) => {
-                  return (
-                    <CTableDataCell {...cell.getCellProps()} key={getRowProps}>
-                      {cell.render('Cell')}
-                    </CTableDataCell>
-                  )
-                })}
-              </CTableRow>
-            )
-          })}
-        </CTableBody>
+        {!loading && (
+          <CTableBody {...getTableBodyProps()}>
+            {rows.map((row, i) => {
+              prepareRow(row)
+              return (
+                <CTableRow {...row.getRowProps()} key={i}>
+                  {row.cells.map((cell, getRowProps) => {
+                    return (
+                      <CTableDataCell {...cell.getCellProps()} key={getRowProps}>
+                        {cell.render('Cell')}
+                      </CTableDataCell>
+                    )
+                  })}
+                </CTableRow>
+              )
+            })}
+          </CTableBody>
+        )}
       </CTable>
+      {loading && (
+        <div className="tableLoadingWrapper">
+          <CSpinner />
+        </div>
+      )}
     </div>
   )
 }

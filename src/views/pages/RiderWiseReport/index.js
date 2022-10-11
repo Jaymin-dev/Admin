@@ -1,12 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '../../../components/Table'
-import { CFormSelect } from '@coreui/react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getRiderWiseUserList } from '../../../redux/Riderwise/action'
+import {
+  riderWiseUsersListLoadingSelector,
+  riderWiseUsersListSelector,
+} from '../../../redux/Riderwise/selectors'
 
 const RiderWiseReport = () => {
+  const dispatch = useDispatch()
+  const riderWiseUsersList = useSelector(riderWiseUsersListSelector)
+  const riderWiseUsersListLoading = useSelector(riderWiseUsersListLoadingSelector)
+  const [data, setData] = useState(riderWiseUsersList)
+
+  useEffect(() => {
+    setData(riderWiseUsersList)
+  }, [riderWiseUsersList])
   const header = [
     {
       Header: 'Driver Name',
-      accessor: 'driver_name',
+      accessor: 'name',
     },
     {
       Header: 'Distance',
@@ -18,62 +31,21 @@ const RiderWiseReport = () => {
     },
     {
       Header: 'Temperature',
-      accessor: 'temperature',
+      accessor: 'temp',
     },
-    {
-      Header: 'Duration',
-      accessor: 'duration',
-    },
+    // {
+    //   Header: 'Duration',
+    //   accessor: 'duration',
+    // },
   ]
-  const tableData = [
-    {
-      driver_name: 'Ruben Lewis',
-      distance: '5',
-      speed: '62',
-      temperature: '25',
-      duration: '28',
-    },
 
-    {
-      driver_name: 'Cody Wagner',
-      distance: '95',
-      speed: '80',
-      temperature: '996',
-      duration: '47',
-    },
-    {
-      driver_name: 'Leah Ramos',
-      distance: '36',
-      speed: '15',
-      temperature: '254',
-      duration: '22',
-    },
-    {
-      driver_name: 'Ruben Lewis',
-      distance: '5',
-      speed: '62',
-      temperature: '25',
-      duration: '28',
-    },
+  useEffect(() => {
+    dispatch(getRiderWiseUserList())
+  }, [])
 
-    {
-      driver_name: 'Cody Wagner',
-      distance: '95',
-      speed: '80',
-      temperature: '996',
-      duration: '47',
-    },
-    {
-      driver_name: 'Leah Ramos',
-      distance: '36',
-      speed: '15',
-      temperature: '254',
-      duration: '22',
-    },
-  ]
   return (
     <div className="bg-white p-4">
-      <Table columns={header} data={tableData} search />
+      <Table columns={header} data={data} search loading={riderWiseUsersListLoading} />
     </div>
   )
 }
