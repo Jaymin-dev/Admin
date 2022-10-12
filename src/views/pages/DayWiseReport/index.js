@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '../../../components/Table'
 import SelectDriver from '../../../components/SelectDriver'
+import { useDispatch, useSelector } from 'react-redux'
+import { getDaywise } from '../../../redux/SharedUsage copy/action'
+import { daywiseLoadingSelector, daywiseSelector } from '../../../redux/SharedUsage copy/selectors'
+import dayjs from 'dayjs'
 
 const DayWiseReport = () => {
   const header = [
     {
       Header: 'Date',
-      accessor: 'date',
+      accessor: 'date_time',
     },
     {
       Header: 'Distance',
@@ -21,36 +25,34 @@ const DayWiseReport = () => {
       accessor: 'soc',
     },
   ]
-  const tableData = [
-    {
-      date: '07/05/2022',
-      distance: '12KM',
-      duration: '80Hr',
-      soc: '6.5',
-    },
-    {
-      date: '06/04/2022',
-      distance: '96KM',
-      duration: '25Hr',
-      soc: '3.1',
-    },
-    {
-      date: '12/07/2022',
-      distance: '78KM',
-      duration: '150Hr',
-      soc: '96',
-    },
-    {
-      date: '07/05/2022',
-      distance: '12KM',
-      duration: '80Hr',
-      soc: '6.5',
-    },
-  ]
+  const dispatch = useDispatch()
+  const daywiseData = useSelector(daywiseSelector)
+  const daywiseLoading = useSelector(daywiseLoadingSelector)
+  const [tableData, setTableData] = useState([])
+
+  useEffect(() => {
+    const data = daywiseData.map((l) => {
+      return {
+        ...l,
+        date_time: dayjs(l.date_created).format('DD/MM/YYYY'),
+      }
+    })
+    setTableData(data)
+  }, [daywiseData])
+
+  useEffect(() => {
+    dispatch(getDaywise())
+  }, [])
 
   return (
     <div className="bg-white p-4">
-      <Table actions={<SelectDriver />} search columns={header} data={tableData} />
+      <Table
+        actions={<SelectDriver />}
+        search
+        columns={header}
+        data={tableData}
+        loading={daywiseLoading}
+      />
     </div>
   )
 }

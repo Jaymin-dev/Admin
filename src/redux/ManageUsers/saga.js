@@ -6,15 +6,16 @@ import { getSimplifiedError } from '../../utils/error'
 import { GET_MANAGE_USER_ERROR, GET_MANAGE_USER_REQUEST, GET_MANAGE_USER_SUCCESS } from './reducer'
 import { resetFlagsManageUsers } from './action'
 
-async function manageUsers(payload) {
-  return await Axios.post('/manage-users/', payload)
+async function manageUsers(payload = {}) {
+  return await Axios.get('/add_user.php/', { params: { flag: 'getAllUser', ...payload } })
 }
 function* handleGetManageUsers({ payload }) {
   try {
     const response = yield call(manageUsers, payload)
-    if (response) {
+    if (response.success) {
       yield put({
         type: GET_MANAGE_USER_SUCCESS,
+        payload: response.user,
       })
       yield put(
         resetFlagsManageUsers({
@@ -25,7 +26,7 @@ function* handleGetManageUsers({ payload }) {
   } catch (error) {
     yield put({
       type: GET_MANAGE_USER_ERROR,
-      error: getSimplifiedError(error),
+      payload: getSimplifiedError(error),
     })
   }
 }

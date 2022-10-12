@@ -17,8 +17,8 @@ import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
-import { sidebarShowSelector } from '../redux/User/selectors'
-import { setSidebar } from '../redux/User/action'
+import { sidebarShowSelector } from '../redux/Auth/selectors'
+import { setSidebar } from '../redux/Auth/action'
 
 const AppHeader = () => {
   const dispatch = useDispatch()

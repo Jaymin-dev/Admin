@@ -1,10 +1,14 @@
 import { CButton, CCol } from '@coreui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import AddUserDialogBox from 'src/components/AddUserDialogBox'
 import Table from 'src/components/Table'
 import { useDispatch, useSelector } from 'react-redux'
-import { manageUsersSelector } from '../../../redux/ManageUsers/selectors'
-import { addManageUsers } from '../../../redux/ManageUsers/action'
+import {
+  manageUsersLoadingSelector,
+  manageUsersSelector,
+} from '../../../redux/ManageUsers/selectors'
+import { addManageUsers, getManageUsers } from '../../../redux/ManageUsers/action'
+import dayjs from 'dayjs'
 const header = [
   {
     Header: 'Name',
@@ -12,15 +16,15 @@ const header = [
   },
   {
     Header: 'Mobile no',
-    accessor: 'mobile_no',
+    accessor: 'mobile',
   },
   {
     Header: 'Email ID',
-    accessor: 'email',
+    accessor: 'email_id',
   },
   {
     Header: 'Date created',
-    accessor: 'date',
+    accessor: 'date_time',
   },
 ]
 // const tableDataRow =
@@ -28,7 +32,8 @@ const ManageUsers = () => {
   const dispatch = useDispatch()
   const [open, setOpen] = React.useState(false)
   const tableDataRow = useSelector(manageUsersSelector)
-  const [tableData, setTableData] = React.useState([...tableDataRow])
+  const manageUsersLoading = useSelector(manageUsersLoadingSelector)
+  const [tableData, setTableData] = React.useState([])
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -48,6 +53,21 @@ const ManageUsers = () => {
     dispatch(addManageUsers(data))
     setOpen(false)
   }
+
+  useEffect(() => {
+    dispatch(getManageUsers())
+  }, [])
+
+  useEffect(() => {
+    const data = tableDataRow.map((l) => {
+      return {
+        ...l,
+        date_time: dayjs(l.date_time).format('DD/MM/YYYY'),
+      }
+    })
+    setTableData(data)
+  }, [tableDataRow])
+
   return (
     <div className="bg-white p-4">
       <AddUserDialogBox
@@ -60,6 +80,7 @@ const ManageUsers = () => {
         columns={header}
         data={tableData}
         search
+        loading={manageUsersLoading}
         actions={
           <CButton onClick={handleClickOpen} color="primary" className="px-4">
             Add User

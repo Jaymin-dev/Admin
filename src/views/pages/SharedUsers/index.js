@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Table from 'src/components/Table'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  sharedUsageLoadingSelector,
+  sharedUsageSelector,
+} from '../../../redux/SharedUsage/selectors'
+import { getSharedUsage } from '../../../redux/SharedUsage/action'
 
 const SharedUsers = () => {
   const header = [
     {
       Header: 'Driver Name',
-      accessor: 'driver_name',
+      accessor: 'name',
     },
     {
       Header: 'Owner Name',
@@ -13,58 +19,34 @@ const SharedUsers = () => {
     },
     {
       Header: 'Phone Number',
-      accessor: 'phone',
+      accessor: 'mobile',
     },
     {
       Header: 'Used Timing',
-      accessor: 'used_timing',
+      accessor: 'to_timing',
     },
     {
       Header: 'To',
-      accessor: 'to',
+      accessor: 'to_location',
     },
     {
       Header: 'From',
-      accessor: 'from',
+      accessor: 'from_location',
     },
   ]
-  const tableData = [
-    {
-      driver_name: 'Cody Wagner',
-      owner_name: 'Leah Ramos',
-      phone: '(320) 899-4101',
-      used_timing: '5hr',
-      to: 'UK',
-      from: 'New York',
-    },
-    {
-      driver_name: 'Ruben Lewis',
-      owner_name: 'Cody Wagner',
-      phone: '(320) 879-0258',
-      used_timing: '8hr',
-      to: 'UK',
-      from: 'Chin',
-    },
-    {
-      driver_name: 'Ruben Lewis',
-      owner_name: 'Cody Wagner',
-      phone: '(320) 879-0258',
-      used_timing: '8hr',
-      to: 'UK',
-      from: 'Chin',
-    },
-    {
-      driver_name: 'Cody Wagner',
-      owner_name: 'Leah Ramos',
-      phone: '(320) 899-4101',
-      used_timing: '5hr',
-      to: 'UK',
-      from: 'New York',
-    },
-  ]
+
+  const dispatch = useDispatch()
+
+  const sharedUsage = useSelector(sharedUsageSelector)
+  const sharedUsageLoading = useSelector(sharedUsageLoadingSelector)
+
+  useEffect(() => {
+    dispatch(getSharedUsage())
+  }, [])
+
   return (
     <div className="bg-white p-4">
-      <Table columns={header} data={tableData} search />
+      <Table columns={header} loading={sharedUsageLoading} data={sharedUsage} search />
     </div>
   )
 }

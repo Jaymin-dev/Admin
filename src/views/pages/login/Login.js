@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
@@ -17,6 +17,9 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import logo from '../../../assets/brand/logo-1.png'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../../../redux/Auth/action'
+import { loginSelector } from '../../../redux/Auth/selectors'
 
 const Login = () => {
   const initData = {
@@ -27,9 +30,16 @@ const Login = () => {
     usernameError: false,
     passwordError: false,
   }
+  const dispatch = useDispatch()
+  const loginSelectorData = useSelector(loginSelector)
   const [data, setData] = useState(initData)
   const [dataError, setDataError] = useState(initDataError)
   const [loginError, setLoginError] = useState(false)
+
+  useEffect(() => {
+    setLoginError(loginSelectorData.error)
+  }, [loginSelectorData])
+
   const handleClick = () => {
     if (!data.username || !data.password) {
       setDataError({
@@ -38,18 +48,7 @@ const Login = () => {
       })
       return
     }
-    const userData = localStorage.getItem('userInfo')
-    const loginUser = {
-      username: userData ? JSON.parse(userData)?.email : 'test@test.com',
-      password: userData ? JSON.parse(userData)?.password : 'Test@123',
-    }
-    console.log('loginUser', loginUser)
-    if (data.username === loginUser.username && data.password === loginUser.password) {
-      localStorage.setItem('isLogin', 'true')
-      window.location.reload()
-    } else {
-      setLoginError(true)
-    }
+    dispatch(login({ username: data.username, password: data.password }))
   }
   const handleChange = ({ target: { value, name } }) => {
     setData({
@@ -111,7 +110,12 @@ const Login = () => {
                     {loginError && <CAlert color="danger">Email and password not match</CAlert>}
                     <CRow>
                       <CCol xs={6}>
-                        <CButton onClick={handleClick} color="primary" className="px-4">
+                        <CButton
+                          onClick={handleClick}
+                          color="primary"
+                          className="px-4"
+                          disabled={loginSelectorData.loading}
+                        >
                           Login
                         </CButton>
                       </CCol>
