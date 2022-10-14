@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useTable, useFilters } from 'react-table'
-import './styles.scss'
 import {
   CSpinner,
   CTable,
@@ -14,6 +13,7 @@ import Paper from '@mui/material/Paper'
 import InputBase from '@mui/material/InputBase'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
+import './styles.scss'
 
 const Table = ({ columns = [], data = [], search, actions, loading }) => {
   // Define a default UI for filtering
@@ -94,40 +94,47 @@ const Table = ({ columns = [], data = [], search, actions, loading }) => {
         )}
         {actions && <div className="pl-3">{actions}</div>}
       </div>
-      <CTable {...getTableProps()}>
-        <CTableHead>
-          {headerGroups.map((headerGroup, headerGroupsIndex) => (
-            <CTableRow {...headerGroup.getHeaderGroupProps()} key={headerGroupsIndex}>
-              {headerGroup.headers.map((column, i) => (
-                <CTableHeaderCell {...column.getHeaderProps()} key={`${i}--${headerGroupsIndex}`}>
-                  <div className="d-flex w-full align-items-center">
-                    {column.render('Header')}
-                    {column.canFilter && <div className="ml-2">{column.render('Filter')}</div>}
-                  </div>
-                </CTableHeaderCell>
-              ))}
-            </CTableRow>
-          ))}
-        </CTableHead>
-        {!loading && (
-          <CTableBody {...getTableBodyProps()}>
-            {rows.map((row, i) => {
-              prepareRow(row)
-              return (
-                <CTableRow {...row.getRowProps()} key={i}>
-                  {row.cells.map((cell, getRowProps) => {
-                    return (
-                      <CTableDataCell {...cell.getCellProps()} key={getRowProps}>
-                        {cell.render('Cell')}
-                      </CTableDataCell>
-                    )
-                  })}
-                </CTableRow>
-              )
-            })}
-          </CTableBody>
-        )}
-      </CTable>
+      <div className="table-body-wrapper">
+        <CTable {...getTableProps()}>
+          <CTableHead>
+            {headerGroups.map((headerGroup, headerGroupsIndex) => (
+              <CTableRow {...headerGroup.getHeaderGroupProps()} key={headerGroupsIndex}>
+                {headerGroup.headers.map((column, i) => (
+                  <CTableHeaderCell
+                    {...column.getHeaderProps()}
+                    key={`${i}--${headerGroupsIndex}`}
+                    className="table-header-wrapper"
+                  >
+                    <div className="d-flex w-full align-items-center">
+                      {column.render('Header')}
+                      {column.canFilter && <div className="ml-2">{column.render('Filter')}</div>}
+                    </div>
+                  </CTableHeaderCell>
+                ))}
+              </CTableRow>
+            ))}
+          </CTableHead>
+          {!loading && (
+            <CTableBody {...getTableBodyProps()}>
+              {rows.map((row, i) => {
+                prepareRow(row)
+                return (
+                  <CTableRow {...row.getRowProps()} key={i}>
+                    {row.cells.map((cell, getRowProps) => {
+                      return (
+                        <CTableDataCell {...cell.getCellProps()} key={getRowProps}>
+                          {cell.render('Cell')}
+                        </CTableDataCell>
+                      )
+                    })}
+                  </CTableRow>
+                )
+              })}
+            </CTableBody>
+          )}
+        </CTable>
+      </div>
+
       {loading && (
         <div className="tableLoadingWrapper">
           <CSpinner />

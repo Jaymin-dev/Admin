@@ -50,3 +50,8 @@ $sizes: 100;
   }
 }
 @include padding-classes;
+
+div#__react-alert__ {
+  z-index: 9999999999999;
+  position: relative;
+}

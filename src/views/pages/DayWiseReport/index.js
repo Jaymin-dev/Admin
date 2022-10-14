@@ -29,6 +29,7 @@ const DayWiseReport = () => {
   const daywiseData = useSelector(daywiseSelector)
   const daywiseLoading = useSelector(daywiseLoadingSelector)
   const [tableData, setTableData] = useState([])
+  const [selectedDriver, setSelectedDriver] = useState()
 
   useEffect(() => {
     const data = daywiseData.map((l) => {
@@ -41,13 +42,17 @@ const DayWiseReport = () => {
   }, [daywiseData])
 
   useEffect(() => {
-    dispatch(getDaywise())
-  }, [])
+    if (selectedDriver && selectedDriver !== 'Select driver') {
+      dispatch(getDaywise({ data: selectedDriver }))
+    } else {
+      dispatch(getDaywise())
+    }
+  }, [selectedDriver])
 
   return (
     <div className="bg-white p-4">
       <Table
-        actions={<SelectDriver />}
+        actions={<SelectDriver setSelectedDriver={setSelectedDriver} />}
         search
         columns={header}
         data={tableData}

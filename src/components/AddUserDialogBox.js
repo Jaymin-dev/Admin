@@ -13,8 +13,9 @@ import {
 const AddUserDialogBox = ({ handleClickOpen, handleClose, open, addNewUser }) => {
   const initialData = {
     name: '',
-    email: '',
-    mobile_no: '',
+    email_id: '',
+    mobile: '',
+    address: '',
   }
   const [data, setData] = React.useState(initialData)
   const onChangeHandler = ({ target: { name, value } }) => {
@@ -42,7 +43,7 @@ const AddUserDialogBox = ({ handleClickOpen, handleClose, open, addNewUser }) =>
           <TextField
             autoFocus
             margin="dense"
-            name="email"
+            name="email_id"
             label="Email Address"
             type="email"
             size="medium"
@@ -54,9 +55,20 @@ const AddUserDialogBox = ({ handleClickOpen, handleClose, open, addNewUser }) =>
           <TextField
             autoFocus
             margin="dense"
-            name="mobile_no"
+            name="mobile"
             label="Phone Number"
             type="number"
+            size="medium"
+            variant="standard"
+            onChange={onChangeHandler}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            autoFocus
+            margin="dense"
+            name="address"
+            label="Address"
             size="medium"
             variant="standard"
             onChange={onChangeHandler}

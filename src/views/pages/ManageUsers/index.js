@@ -3,12 +3,19 @@ import React, { useEffect } from 'react'
 import AddUserDialogBox from 'src/components/AddUserDialogBox'
 import Table from 'src/components/Table'
 import { useDispatch, useSelector } from 'react-redux'
+import { useAlert } from 'react-alert'
 import {
+  addUsersSelector,
   manageUsersLoadingSelector,
   manageUsersSelector,
 } from '../../../redux/ManageUsers/selectors'
-import { addManageUsers, getManageUsers } from '../../../redux/ManageUsers/action'
+import {
+  addManageUsers,
+  getManageUsers,
+  resetFlagsManageUsers,
+} from '../../../redux/ManageUsers/action'
 import dayjs from 'dayjs'
+import { userDataSelector } from '../../../redux/Auth/selectors'
 const header = [
   {
     Header: 'Name',
@@ -34,6 +41,9 @@ const ManageUsers = () => {
   const tableDataRow = useSelector(manageUsersSelector)
   const manageUsersLoading = useSelector(manageUsersLoadingSelector)
   const [tableData, setTableData] = React.useState([])
+  const userData = useSelector(userDataSelector)
+  const addUsers = useSelector(addUsersSelector)
+  const alert = useAlert()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -50,13 +60,39 @@ const ManageUsers = () => {
         date: new Date().toLocaleDateString(),
       },
     ])
-    dispatch(addManageUsers(data))
-    setOpen(false)
+    const payload = {
+      ...data,
+      date_created: new Date(),
+      last_modified: new Date(),
+      isActive: 0,
+      owner_id: userData.id,
+      latitude: 1,
+      longitude: 1,
+      location_time: 1,
+      userData,
+    }
+    dispatch(addManageUsers(payload))
   }
 
   useEffect(() => {
+    // dispatch(getManageUsers({ search_data: userData.username }))
     dispatch(getManageUsers())
   }, [])
+
+  useEffect(() => {
+    if (addUsers.success) {
+      setOpen(false)
+      dispatch(
+        resetFlagsManageUsers({
+          blockType: 'addUsers',
+        }),
+      )
+    }
+  }, [addUsers.success])
+
+  useEffect(() => {
+    if (addUsers.error) alert.error(addUsers.error)
+  }, [addUsers.error])
 
   useEffect(() => {
     const data = tableDataRow.map((l) => {

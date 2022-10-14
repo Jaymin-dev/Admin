@@ -10,7 +10,7 @@ import {
 import { resetFlagsRidewise } from './action'
 
 async function getRideWise(payload = {}) {
-  return await Axios.get('/get_ride_list.php', { params: { ...payload } })
+  return await Axios.get('/get_ride_list.php', { params: { flag: 'getRide', ...payload } })
 }
 function* handleGetRideWise({ payload }) {
   try {

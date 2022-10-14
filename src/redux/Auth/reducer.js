@@ -9,6 +9,8 @@ export const REGISTER_USER_REQUEST = 'REGISTER_USER_REQUEST'
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS'
 export const REGISTER_USER_ERROR = 'REGISTER_USER_ERROR'
 
+export const SET_USER_DATA = 'SET_USER_DATA'
+
 export const RESET_BLOCK_USER = 'RESET_BLOCK_MANAGE_USER'
 export const RESET_FLAGS_USER = 'RESET_FLAGS_MANAGE_USER'
 
@@ -23,6 +25,7 @@ const initialState = {
   sidebarUnFoldable: false,
   login: { ...block },
   register: { ...block },
+  userData: {},
 }
 
 export const UserReducer = (state = initialState, { type, payload }) => {
@@ -45,6 +48,9 @@ export const UserReducer = (state = initialState, { type, payload }) => {
       return { ...state, register: { ...state.register, success: true, error: '', loading: false } }
     case REGISTER_USER_ERROR:
       return { ...state, register: { ...state.register, error: payload, loading: false } }
+
+    case SET_USER_DATA:
+      return { ...state, userData: payload }
 
     //reset block with flag and data
     case RESET_BLOCK_USER:

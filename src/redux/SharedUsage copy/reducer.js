@@ -21,7 +21,7 @@ const initialState = {
 export const DaywiseReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_DAY_WISE_REQUEST:
-      return { ...state, daywise: { ...state.daywise, loading: true } }
+      return { ...state, daywise: { ...state.daywise, loading: true, tableData: [] } }
     case GET_DAY_WISE_SUCCESS:
       return {
         ...state,

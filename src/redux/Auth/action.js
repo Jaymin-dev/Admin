@@ -5,6 +5,7 @@ import {
   SET_UN_FOLDABLE_SIDEBAR,
   LOGIN_USER_REQUEST,
   REGISTER_USER_REQUEST,
+  SET_USER_DATA,
 } from './reducer'
 
 export const setSidebar = (payload) => ({ type: SET_SIDEBAR, payload })
@@ -12,6 +13,7 @@ export const setUnFoldableSidebar = (payload) => ({ type: SET_UN_FOLDABLE_SIDEBA
 
 export const login = (payload) => ({ type: LOGIN_USER_REQUEST, payload })
 export const register = (payload) => ({ type: REGISTER_USER_REQUEST, payload })
+export const setLoginUserData = (payload) => ({ type: SET_USER_DATA, payload })
 
 export const resetBlockUsers = (payload) => ({
   type: RESET_BLOCK_USER,

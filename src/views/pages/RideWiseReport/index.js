@@ -7,20 +7,26 @@ import {
   ridewiseUsersListLoadingSelector,
   ridewiseUsersListSelector,
 } from '../../../redux/Ridewise/selectors'
+import { getDaywise } from '../../../redux/SharedUsage copy/action'
 
 const RideWiseReport = () => {
   const dispatch = useDispatch()
   const ridewiseUsersList = useSelector(ridewiseUsersListSelector)
   const ridewiseUsersListLoading = useSelector(ridewiseUsersListLoadingSelector)
   const [data, setData] = useState(ridewiseUsersList)
+  const [selectedDriver, setSelectedDriver] = useState()
 
   useEffect(() => {
     setData(ridewiseUsersList)
   }, [ridewiseUsersList])
 
   useEffect(() => {
-    dispatch(getRidewiseUserList({ flag: 'getRide' }))
-  }, [])
+    if (selectedDriver && selectedDriver !== 'Select driver') {
+      dispatch(getRidewiseUserList({ data: selectedDriver }))
+    } else {
+      dispatch(getRidewiseUserList())
+    }
+  }, [selectedDriver])
 
   const header = [
     {
@@ -48,7 +54,7 @@ const RideWiseReport = () => {
         loading={ridewiseUsersListLoading}
         data={data}
         search
-        actions={<SelectDriver />}
+        actions={<SelectDriver setSelectedDriver={setSelectedDriver} />}
       />
     </div>
   )
