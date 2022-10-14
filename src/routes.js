@@ -50,9 +50,24 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
+const ManageUsers = React.lazy(() => import('./views/pages/ManageUsers'))
+const SharedUsers = React.lazy(() => import('./views/pages/SharedUsers'))
+const DriverRatingReport = React.lazy(() => import('./views/pages/DriverRatingReport'))
+const RiderWiseReport = React.lazy(() => import('./views/pages/RiderWiseReport'))
+const DayWiseReport = React.lazy(() => import('./views/pages/DayWiseReport'))
+const RideWiseReport = React.lazy(() => import('./views/pages/RideWiseReport'))
+const LocationReport = React.lazy(() => import('./views/pages/LocationReport'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/dashboard', name: 'Manage Users', element: ManageUsers },
+  { path: '/shared-users', name: 'Shared Users', element: SharedUsers },
+  { path: '/driver-rating-report', name: 'Driver rating report', element: DriverRatingReport },
+  { path: '/riderwise-report', name: 'Riderwise report', element: RiderWiseReport },
+  { path: '/daywise-report', name: 'DayWise Report', element: DayWiseReport },
+  { path: '/ridewise-report', name: 'Ridewise Report', element: RideWiseReport },
+  { path: '/location-report', name: 'Location Report', element: LocationReport },
+  // { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },

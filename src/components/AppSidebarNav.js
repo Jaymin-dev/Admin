@@ -3,25 +3,27 @@ import { NavLink, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { CBadge } from '@coreui/react'
+import { ReactComponent as ManageUsersIcon } from '../assets/Icons/manage-user.svg'
+import './styles.scss'
 
 export const AppSidebarNav = ({ items }) => {
   const location = useLocation()
-  const navLink = (name, icon, badge) => {
+  const navLink = (name, Icon, badge) => {
     return (
-      <>
-        {icon && icon}
+      <span>
+        {Icon && Icon}
         {name && name}
         {badge && (
           <CBadge color={badge.color} className="ms-auto">
             {badge.text}
           </CBadge>
         )}
-      </>
+      </span>
     )
   }
 
   const navItem = (item, index) => {
-    const { component, name, badge, icon, ...rest } = item
+    const { component, name, badge, Icon, ...rest } = item
     const Component = component
     return (
       <Component
@@ -32,7 +34,7 @@ export const AppSidebarNav = ({ items }) => {
         key={index}
         {...rest}
       >
-        {navLink(name, icon, badge)}
+        {navLink(name, Icon, badge)}
       </Component>
     )
   }
